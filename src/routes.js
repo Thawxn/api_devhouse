@@ -1,13 +1,13 @@
 import { Router } from "express";
 import multer from "multer";
-import uploadConfig from "./config/upload";
+import uploadConfig from "./config/uploads";
 
 import SessionController from "./controller/SessionController";
 import HouseController from "./controller/HouseController";
 
 
 const routes = new Router();
-const upload = new multer(uploadConfig);
+const upload = multer(uploadConfig);
 
 routes.post('/sessions', SessionController.store );
 
