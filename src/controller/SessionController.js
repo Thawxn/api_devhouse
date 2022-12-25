@@ -13,8 +13,15 @@ class SessionController{
     async store(req, res){
         const { email } = req.body;
 
-        let user = await User.create({ email });
+        //Verificando se esse usuario já existe
+        let user = await User.findOne({ email });
 
+        //Se não eiste, então vai cadastrar outro usuario
+        if(!user){
+            let user = await User.create({ email });
+        }
+
+        //isso que vai retorna quando cadastrar
         return res.json(user);
     };
 };
