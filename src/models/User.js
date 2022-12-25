@@ -4,4 +4,4 @@ const UserSchema = new Schema({
     email: String,
 });
 
-export default new model('User', UserSchema);
+export default model('User', UserSchema);
