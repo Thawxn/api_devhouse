@@ -10,20 +10,19 @@ import User from '../models/User';
 
 class SessionController{
 
-    async store(req, res){
-        const { email } = req.body;
+  async store(req, res){
+    const { email } = req.body;
 
-        //Verificando se esse usuario já existe
-        let user = await User.findOne({ email });
+    //Verificando se esse usuario já existe
+    let user = await User.findOne({ email });
 
-        //Se não eiste, então vai cadastrar outro usuario
-        if(!user){
-            let user = await User.create({ email });
-        }
+    if(!user){
+      user = await User.create({ email });
+    }
+    
+    return res.json(user);
+  }
 
-        //isso que vai retorna quando cadastrar
-        return res.json(user);
-    };
-};
+}
 
 export default new SessionController();
