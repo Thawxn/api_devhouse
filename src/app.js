@@ -1,38 +1,40 @@
-import express from "express";
+import express from 'express';
 import mongoose from 'mongoose';
-import cors from "cors";
-import path from "path";
-import routes from "./routes";
+import cors from 'cors';
+import path from 'path';
+import routes from './routes';
 
-class App{
+class App {
+  constructor() {
+    this.server = express();
 
-    constructor(){
-        this.server = express();
+    mongoose.set('strictQuery', true);
+    mongoose.connect(
+      'mongodb+srv://DevHouse:2001@devhouse.mzp8dqb.mongodb.net/DevHouse?retryWrites=true&w=majority',
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
 
-        mongoose.set("strictQuery", true);
-        mongoose.connect("mongodb+srv://DevHouse:2001@devhouse.mzp8dqb.mongodb.net/DevHouse?retryWrites=true&w=majority", {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+    this.middleware();
+    this.routes();
+  }
 
-        this.middleware();
-        this.routes();
-    };
+  middleware() {
+    this.server.use(cors());
 
-    middleware(){
-        this.server.use(cors());
+    this.server.use(
+      '/files',
+      express.static(path.resolve(__dirname, '..', 'uploads'))
+    );
 
-        this.server.use(
-            '/files',
-            express.static(path.resolve(__dirname, '..', 'uploads'))
-        )
+    this.server.use(express.json());
+  }
 
-        this.server.use(express.json());
-    };
-
-    routes(){
-        this.server.use(routes);
-    };
-};
+  routes() {
+    this.server.use(routes);
+  }
+}
 
 export default new App().server;
