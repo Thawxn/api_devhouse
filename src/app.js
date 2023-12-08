@@ -3,19 +3,16 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import path from 'path';
 import routes from './routes';
+import 'dotenv/config';
 
 class App {
   constructor() {
     this.server = express();
 
-    mongoose.set('strictQuery', true);
-    mongoose.connect(
-      'mongodb+srv://DevHouse:2001@devhouse.mzp8dqb.mongodb.net/DevHouse?retryWrites=true&w=majority',
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+    mongoose.connect(process.env.CONNECTIONSTRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
     this.middleware();
     this.routes();
